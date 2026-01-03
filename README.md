@@ -1,4 +1,5 @@
-# SWAGLABS-mannual-and-automation-test-
+# SWAGLABS Test Scenario and Test Case
+  https://docs.google.com/spreadsheets/d/1YcN900NTp4HmI02aiODci0CprzavLFIlDLmtl9v4W8Q/edit?usp=sharing
 # SWAGLABS Test Automation Framework
 
 A comprehensive end-to-end test automation suite for the [SWAGLABS](https://www.saucedemo.com/) e-commerce demo application, demonstrating modern test automation practices with Playwright and TypeScript.
