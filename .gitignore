@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+
+# Playwright Test Results & Reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+
+# Environment Variables & Credentials
+.env
+.env.local
+.env.*.local
+credentials.json
+credencials.json
+auth.json
+
+# Fixtures State Files
+fixtures/state/*.json
+
+# Test Artifacts
+downloads/
+screenshots/
+videos/
+traces/
+trace.zip
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build Output
+dist/
+build/
+*.tsbuildinfo
+
+# Coverage Reports
+coverage/
+.nyc_output/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Package Manager Lock Files (uncomment if needed)
+# package-lock.json
+# yarn.lock
