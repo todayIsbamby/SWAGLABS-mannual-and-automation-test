@@ -1,6 +1,4 @@
 # SWAGLABS-mannual-and-automation-test-
-End-to-end test automation for SWAGLABS e-commerce app using Playwright + TypeScript. Features POM architecture, fixtures pattern, and comprehensive test coverage.
-
 # SWAGLABS Test Automation Framework
 
 A comprehensive end-to-end test automation suite for the [SWAGLABS](https://www.saucedemo.com/) e-commerce demo application, demonstrating modern test automation practices with Playwright and TypeScript.
