@@ -7,7 +7,6 @@ test.describe('Swag Labs - Product Page', () => {
 
   // ใช้ login state ที่เตรียมไว้
   test.beforeEach(async ({ page }) => {
-    await page.context().addCookies([]);
     await page.goto('https://www.saucedemo.com/inventory.html'); 
     inventory = new InventoryPage(page);
   });
@@ -15,14 +14,31 @@ test.describe('Swag Labs - Product Page', () => {
    //---------------------------------------------------------------------------------------
   // Verify UI elements on Product Page
   //---------------------------------------------------------------------------------------
-  test('[TC-VUP-001..007] Inventory page UI smoke', async () => {
-    await inventory.verifyPageUI();      // header + logo + page title
-    await inventory.verifyProducts();    // product cards, title, description, price
+  test('[TC-VUP-001] Logo verification', async () => {
+    await inventory.verifyLogo();     
+  });
+    test('[TC-VUP-002] Page title verification', async () => {
+    await inventory.verifyTitle();     
+  });
+    test('[TC-VUP-003] Product list verification ', async () => {
+    await inventory.verifyProductInfo();     
+  });
+    test('[TC-VUP-004] Hamburger button verification ', async () => {
+    await inventory.verifyHamburgerButton();     
+  });
+    test('[TC-VUP-005] Cart button verification', async () => {
+    await inventory.verifyCartButton();     
+  });
+    test('[TC-VUP-006] Sort button verification', async () => {
+
+    await inventory.verfySortButton();     
   });
 
-  //---------------------------------------------------------------------------------------
-  // Hamburger menu functionality
-  //---------------------------------------------------------------------------------------
+  test('[TC-VUP-007] Product Info Verification', async () => {
+    await inventory.verifyProducts();    
+  });
+  //-------------------------------------------------------------------Hamburger menu functionality ---------------------------------------------------------------------------------------
+
   test('TC-VHB-001: Hamburger menu can open', async () => {
     await inventory.hamburger.open();
   });
@@ -43,12 +59,14 @@ test.describe('Swag Labs - Product Page', () => {
     await inventory.verifyHamburgerResetAppState();
   });
   test('TC-VHB-006: Hamburger menu can close', async () => {
+    await inventory.hamburger.open();
     await inventory.hamburger.close();
   });
 
-  //---------------------------------------------------------------------------------------
-  // Product page functionality
-  //---------------------------------------------------------------------------------------
+
+  //------------------------------------------------------------------ Product page functionality---------------------------------------------------------------------------------------
+  
+
   test('TC-PF-001: Add first product to cart', async () => {
     await inventory.addToCart(0); // add first product
     await inventory.verifyCartBadge(1);
@@ -66,29 +84,35 @@ test.describe('Swag Labs - Product Page', () => {
     await inventory.verifyCartBadge(2);
   });
 
+
+//แก้ไข
   test('TC-PF-004 to TC-PF-007: Product detail navigation & data consistency', async () => {
-    await inventory.verifyProductDetailNavigation(); // open/close, compare data list/detail
+    await inventory.verifyProductDetailNavigation(); 
   });
 
-  test('TC-PF-008 to TC-PF-011: Sorting products', async () => {
-    await inventory.sortProductsByName('asc');   // A to Z
-    await inventory.sortProductsByName('desc');  // Z to A
-    await inventory.sortProductsByPrice('asc');  // Low to High
-    await inventory.sortProductsByPrice('desc'); // High to Low
-  });
+  test('TC-PF-008: Sorting Name (A to Z)', async () => {
+    await inventory.sortProductsByName('asc')});
 
-  test('TC-PF-012: Responsiveness verification', async () => {
-    await inventory.verifyResponsiveLayout();
-  });
+   test('TC-PF-009: Sorting Name (Z to A)', async () => {
+    await inventory.sortProductsByName('desc')});
+  
+   test('TC-PF-010: Sorting Price (Low to High)', async () => {
+    await inventory.sortProductsByPrice('asc')});
 
-  test('TC-PF-013: Data consistency', async () => {
-    await inventory.verifyProductDataConsistency();
-  });
+   test('TC-PF-011: Sorting Price (High to Low)', async () => {
+    await inventory.sortProductsByPrice('desc')});
 
-  //---------------------------------------------------------------------------------------
-  // Footer section
-  //---------------------------------------------------------------------------------------
- test.describe('Footer Test Suite', () => {
+    test('TC-PF-012: Responsiveness verification', async () => {
+      await inventory.verifyResponsiveLayout();
+    });
+
+    test('TC-PF-013: Data consistency', async () => {
+      await inventory.verifyProductDataConsistency();
+    });
+
+  //--------------------------------------------------------------------Footer section---------------------------------------------------------------------------------------
+ 
+  test.describe('Footer Test Suite', () => {
 
   test('TC-TFS-001: Verify footer visibility', async () => {
     await inventory.footer.scrollToFooter();

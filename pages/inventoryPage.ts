@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import  { expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { BasePage } from './basePage.js';
 import { Header } from '../components/header.js';
 import { Footer } from '../components/footer.js';
@@ -9,12 +9,15 @@ export class InventoryPage extends BasePage {
   readonly header: Header;
   readonly footer: Footer;
   readonly hamburger: HamburgerMenu;
+  readonly filterButton;
+
 
   constructor(page: Page) {
     super(page);
-    this.header = new Header(page);      
-    this.footer = new Footer(page);      
-    this.hamburger = new HamburgerMenu(page); 
+    this.header = new Header(page);
+    this.footer = new Footer(page);
+    this.hamburger = new HamburgerMenu(page);
+    this.filterButton = page.locator('.select_container');
   }
 
   // ไปหน้า inventory
@@ -22,47 +25,66 @@ export class InventoryPage extends BasePage {
     await this.page.goto('https://www.saucedemo.com/inventory.html');
   }
 
-  //---------------------------------------------------------------------------------------ตรวจสอบ URL และ header elements---------------------------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------
+  // Header elements
+  // ---------------------------------------------------------------------------------------
+  async verifyLogo() {
+    await this.header.verifyHeaderAppLoGo();
+  }
 
-  async verifyPageUI() {
-    await this.expectURL(/inventory.html/);
-    await this.header.verifyHeader('Products');        
+  async verifyTitle() {
+    await this.header.verifyHeaderTitle('Products');
+  }
+
+  async verifyHamburgerButton() {
+    await this.header.verifyHeaderHamburger();
+  }
+
+  async verifyCartButton() {
+    await this.header.verifyHeaderCartIcon;
+  }
+
+  async verfySortButton() { 
+  await expect(this.filterButton).toBeVisible();
   }
 
 
-//----------------------------------------------------------------------------------------Footer----------------------------------------------------------------------------------------------------------------------------------
+  async verifyProductInfo() {
+    const items = this.page.locator('.inventory_item');
 
-
-async verifyFooterVisible() {
-  await this.footer.verifyFooterVisibility();
-}
-
-async verifyFooterCopyright() {
-  await this.footer.verifyCopyrightText();
-}
-
-async verifyFooterTwitter() {
-  await this.footer.verifyTwitterLink();
-}
-
-async verifyFooterFacebook() {
-  await this.footer.verifyFacebookLink();
-}
-
-async verifyFooterLinkedIn() {
-  await this.footer.verifyLinkedInLink();
-}
+    await expect(items.first()).toBeVisible(); // ⭐ สำคัญ
+    const count = await items.count();
+    expect(count).toBeGreaterThan(0);
+  }
 
 
 
+  // ---------------------------------------------------------------------------------------
+  // Footer
+  // ---------------------------------------------------------------------------------------
+  async verifyFooterVisible() {
+    await this.footer.verifyFooterVisibility();
+  }
 
+  async verifyFooterCopyright() {
+    await this.footer.verifyCopyrightText();
+  }
 
+  async verifyFooterTwitter() {
+    await this.footer.verifyTwitterLink();
+  }
 
+  async verifyFooterFacebook() {
+    await this.footer.verifyFacebookLink();
+  }
 
+  async verifyFooterLinkedIn() {
+    await this.footer.verifyLinkedInLink();
+  }
 
-
-//-----------------------------------------------------------------------------------------hamburger menu actions---------------------------------------------------------------------------------------------------------------------------------------
-
+  // ---------------------------------------------------------------------------------------
+  // Hamburger menu actions
+  // ---------------------------------------------------------------------------------------
   async verifyHamburgerAllItems() {
     await this.hamburger.open();
     await this.hamburger.clickAllItems();
@@ -87,14 +109,15 @@ async verifyFooterLinkedIn() {
   async verifyHamburgerResetAppState() {
     await this.hamburger.open();
     await this.hamburger.clickResetAppState();
-    // ตรวจสอบ cart กลับเป็น 0
     await expect(this.page.locator('.shopping_cart_badge')).toHaveCount(0);
-
   }
-//-----------------------------------------------------------------------------------------product cards, title, description, price---------------------------------------------------------------------------------------------------------------------------------
 
+  // ---------------------------------------------------------------------------------------
+  // Product cards
+  // ---------------------------------------------------------------------------------------
   async verifyProducts() {
     const count = await this.page.locator('.inventory_item').count();
+
     for (let i = 0; i < count; i++) {
       const card = this.page.locator('.inventory_item').nth(i);
       await expect(card).toBeVisible();
@@ -104,15 +127,22 @@ async verifyFooterLinkedIn() {
     }
   }
 
-  //---------------------------------------------------------------------------------------Cart actions---------------------------------------------------------------------------------------------------------------------------
- 
+  // ---------------------------------------------------------------------------------------
+  // Cart actions
+  // ---------------------------------------------------------------------------------------
   async addToCart(index: number) {
-    const button = this.page.locator('.inventory_item').nth(index).locator('button');
+    const button = this.page
+      .locator('.inventory_item')
+      .nth(index)
+      .locator('button');
     await button.click();
   }
 
   async removeFromCart(index: number) {
-    const button = this.page.locator('.inventory_item').nth(index).locator('button');
+    const button = this.page
+      .locator('.inventory_item')
+      .nth(index)
+      .locator('button');
     await button.click();
   }
 
@@ -125,32 +155,36 @@ async verifyFooterLinkedIn() {
     }
   }
 
-  //---------------------------------------------------------------------------------Product detail navigation & data consistency------------------------------------------------------------------------------------------------
-
-
+  // ---------------------------------------------------------------------------------------
+  // Product detail navigation & data consistency
+  // ---------------------------------------------------------------------------------------
   async verifyProductDetailNavigation() {
     const count = await this.page.locator('.inventory_item').count();
+
     for (let i = 0; i < count; i++) {
       const card = this.page.locator('.inventory_item').nth(i);
+
       const title = await card.locator('.inventory_item_name').textContent();
       const price = await card.locator('.inventory_item_price').textContent();
       const desc = await card.locator('.inventory_item_desc').textContent();
 
       await card.locator('.inventory_item_name').click();
+
       await expect(this.page.locator('.inventory_details_name')).toHaveText(title || '');
       await expect(this.page.locator('.inventory_details_price')).toHaveText(price || '');
       await expect(this.page.locator('.inventory_details_desc')).toHaveText(desc || '');
+
       await this.page.click('#back-to-products');
       await expect(this.page).toHaveURL('https://www.saucedemo.com/inventory.html');
     }
   }
 
-  //---------------------------------------------------------------------------------------Sorting---------------------------------------------------------------------------------------------------------------------------------
- 
+  // ---------------------------------------------------------------------------------------
+  // Sorting
+  // ---------------------------------------------------------------------------------------
   async sortProductsByName(order: 'asc' | 'desc') {
     const select = this.page.locator('.product_sort_container');
     await select.selectOption(order === 'asc' ? 'az' : 'za');
-    // ไม่ต้อง verify detail, test จะเช็คตาม UI
   }
 
   async sortProductsByPrice(order: 'asc' | 'desc') {
@@ -158,28 +192,37 @@ async verifyFooterLinkedIn() {
     await select.selectOption(order === 'asc' ? 'lohi' : 'hilo');
   }
 
-  //---------------------------------------------------------------------------------------Responsiveness--------------------------------------------------------------------------------------------------------------------------
- 
+  // ---------------------------------------------------------------------------------------
+  // Responsiveness
+  // ---------------------------------------------------------------------------------------
   async verifyResponsiveLayout() {
     await this.page.setViewportSize({ width: 1920, height: 1080 });
     await this.verifyProducts();
+
     await this.page.setViewportSize({ width: 375, height: 812 });
     await this.verifyProducts();
   }
 
-  //---------------------------------------------------------------------------------------Data consistency between list & detail---------------------------------------------------------------------------------------------------
-
+  // ---------------------------------------------------------------------------------------
+  // Data consistency between list & detail
+  // ---------------------------------------------------------------------------------------
   async verifyProductDataConsistency() {
     const count = await this.page.locator('.inventory_item').count();
+
     for (let i = 0; i < count; i++) {
       const card = this.page.locator('.inventory_item').nth(i);
+
       const titleList = await card.locator('.inventory_item_name').textContent();
       const priceList = await card.locator('.inventory_item_price').textContent();
+
       await card.locator('.inventory_item_name').click();
+
       const titleDetail = await this.page.locator('.inventory_details_name').textContent();
       const priceDetail = await this.page.locator('.inventory_details_price').textContent();
+
       expect(titleList).toBe(titleDetail);
       expect(priceList).toBe(priceDetail);
+
       await this.page.click('#back-to-products');
     }
   }

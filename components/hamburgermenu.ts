@@ -27,10 +27,12 @@ export class HamburgerMenu {
     await expect(this.menu).toBeVisible();
   }
 
-  async close() {
-    await this.closeBtn.click();
-    await expect(this.menu).not.toBeVisible();
-  }
+async close() {
+  await expect(this.menu).toBeVisible();
+  await this.closeBtn.click();
+  await expect(this.menu).toBeHidden();
+}
+
 
   // Method คลิกเมนูแต่ละตัว (action แต่ไม่ assert)
   async clickAllItems() {

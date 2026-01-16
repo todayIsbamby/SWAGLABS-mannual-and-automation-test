@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from 'C://Users/nsach/swaglabs-automation/pages/loginPage.js';
-import { loginData } from 'C://Users/nsach/swaglabs-automation/fixtures/data/data.user.fixture.js';
+import { LoginPage } from '../pages/loginPage.js';
+import { loginData } from '../fixtures/data/data.user.fixture.js';
 
 
 /*********************************
  * Login Page – UI Verification  *
  *********************************/
-
-test.describe('Login Page UI', () => {
+test.describe('Login Functionality', () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
@@ -28,17 +27,12 @@ test.describe('Login Page UI', () => {
   test('TC-LUI-004 Login button verification', async ({ page }) => {
     await expect(page.locator('#login-button')).toBeVisible();
   });
-});
+
 
 /*********************************
  * Login Page – Functional Tests *
  *********************************/
 
-test.describe('Login Functionality', () => {
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-  });
 
   test('TC-LGF-003 Login with correct credentials', async ({ page }) => {
     const loginPage = new LoginPage(page);
