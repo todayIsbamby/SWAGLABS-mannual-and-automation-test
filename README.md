@@ -11,9 +11,9 @@ This project showcases professional test automation implementation, covering com
 ## ✨ Key Features
 
 - **Page Object Model (POM)**: Structured architecture for maintainable and scalable tests
-- **Component Pattern**: Reusable UI components (Header, Footer, Menu)
+- **Component Pattern**: Reusable UI components (Header, Footer, Hamburger Menu, Cart Item)
 - **Fixtures**: Centralized test data and state management
-- **Multi-Browser Support**: Tests run on Chromium, Firefox, and WebKit
+- **Multi-Browser Support**: Tests run on Chromium
 - **Detailed Reporting**: HTML reports with screenshots and traces
 - **CI/CD Ready**: GitHub Actions integration for automated testing
 - **TypeScript**: Type-safe test code with IntelliSense support
