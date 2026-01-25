@@ -29,7 +29,7 @@ This project showcases professional test automation implementation, covering com
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Playwright 1.x
+- **Framework**: Playwright 1.57.0
 - **Language**: TypeScript
 - **Runtime**: Node.js
 - **Package Manager**: npm
