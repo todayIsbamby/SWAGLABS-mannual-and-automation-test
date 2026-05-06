@@ -15,7 +15,6 @@ This project showcases professional test automation implementation, covering com
 - **Fixtures**: Centralized test data and state management
 - **Multi-Browser Support**: Tests run on Chromium
 - **Detailed Reporting**: HTML reports with screenshots and traces
-- **CI/CD Ready**: GitHub Actions integration for automated testing
 - **TypeScript**: Type-safe test code with IntelliSense support
 
 ## 🧪 Test Coverage
