@@ -82,17 +82,13 @@ test.describe('Your Cart Page', () => {
 
      // ---------------- TC-YCF-004 ----------------
 
-    test('TC-YCF-004 Verify cart badge updates after remove', async ({ page }) => {
-    const cartPage = new CartPage(page);
-
-    await cartPage.goto();
-
-    await page.reload();
-
-    await cartPage.expectInitialCartBadge();
-
-    await cartPage.removeItemAndVerifyBadge('Sauce Labs Bike Light');
+test('TC-YCF-004 Verify cart badge updates after remove', async ({ page }) => {
+  const cartPage = new CartPage(page);
+  
+  await cartPage.expectInitialCartBadge();
+  await cartPage.removeItemAndVerifyBadge('Sauce Labs Bike Light', CART_ITEMS.length - 1);
 });
+
 
 
 

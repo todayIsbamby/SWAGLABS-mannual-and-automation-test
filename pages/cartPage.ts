@@ -7,7 +7,6 @@ import { Header } from '../components/header.js';
 // pages/cartPage.ts
 import cartState from '../fixtures/state/state-cart.fixture.js';
 
-import { CART_ITEMS } from '../fixtures/data/data.cardinfo.fixture.js';
 
 
 export class CartPage extends BasePage {
@@ -102,16 +101,13 @@ async expectItemNotVisibleByName(name: string) {
 async expectInitialCartBadge() {
   await this.expectCartBadgeCount(cartState.length);
 }
-async removeItemAndVerifyBadge(productName: string) {
-  const initialCount = cartState.length;
 
-  const item = await this.getItemByName(productName);
+
+async removeItemAndVerifyBadge(productName: string, expectedCountAfter: number) {
+  const item = this.getItemByName(productName);
   await item.remove();
-
-  await this.expectCartBadgeCount(cartState.length);
+  await this.expectCartBadgeCount(expectedCountAfter);
 }
-
-
 
 
 
