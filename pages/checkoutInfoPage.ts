@@ -1,22 +1,23 @@
 import { type Page, type Locator, expect } from '@playwright/test';
+import { BasePage } from './basePage.js';
 
-export class CheckoutInfoPage {
-  readonly page: Page;
+export class CheckoutInfoPage extends BasePage {
+  // ── Locators ───────────────────────────────────────────────────────────────
 
   // Form fields
-  readonly firstNameInput: Locator;
-  readonly lastNameInput: Locator;
-  readonly zipCodeInput: Locator;
+  private readonly firstNameInput: Locator;
+  private readonly lastNameInput:  Locator;
+  private readonly zipCodeInput:   Locator;
 
   // Buttons
-  readonly continueButton: Locator;
-  readonly cancelButton: Locator;
+  private readonly continueButton: Locator;
+  private readonly cancelButton:   Locator;
 
-  // Error message
-  readonly errorMessage: Locator;
+  // Error
+  private readonly errorMessage: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
 
     this.firstNameInput = page.locator('[data-test="firstName"]');
     this.lastNameInput  = page.locator('[data-test="lastName"]');
@@ -54,8 +55,8 @@ export class CheckoutInfoPage {
     await expect(this.page).toHaveURL(/checkout-step-two/);
   }
 
-  async expectNavigatedToInventoryPage() {
-    await expect(this.page).toHaveURL('https://www.saucedemo.com/cart.html');
+  async expectNavigatedTocartPage() {
+    await expect(this.page).toHaveURL(/cart/);
   }
 
   async expectErrorMessage(text: string) {

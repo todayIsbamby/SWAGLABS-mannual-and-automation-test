@@ -2,7 +2,7 @@
 import { test } from '@playwright/test';
 import { CartPage } from '../pages/cartPage.js';
 import cartState from '../fixtures/state/state-cart.fixture.js';
-import { CART_ITEMS } from '../fixtures/data/data.cardinfo.fixture.js';
+import { CART_ITEMS } from '../fixtures/data/data.cartinfo.fixture.js';
 
 test.describe('Your Cart Page', () => {
   test.beforeEach(async ({ page }) => {

@@ -6,6 +6,7 @@ export interface CartItemInfo {
   description: string;
   price: string;
   quantity: number;
+  addToCartKey?: string;
 }
 
 export const CART_ITEMS: CartItemInfo[] = [
@@ -16,6 +17,7 @@ export const CART_ITEMS: CartItemInfo[] = [
       'carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.',
     price: '$29.99',
     quantity: 1,
+    addToCartKey: 'add-to-cart-sauce-labs-backpack',
   },
   {
     id: '0',
@@ -23,6 +25,7 @@ export const CART_ITEMS: CartItemInfo[] = [
     description:"A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.",
     price: '$9.99',
     quantity: 1,
+    addToCartKey: 'add-to-cart-sauce-labs-bike-light',
   },
   {
     id: '1',
@@ -30,5 +33,6 @@ export const CART_ITEMS: CartItemInfo[] = [
     description:'Get your testing superhero on with the Sauce Labs bolt T-shirt. From American Apparel, 100% ringspun combed cotton, heather gray with red bolt.',
     price: '$15.99',
     quantity: 1,
+    addToCartKey: 'add-to-cart-sauce-labs-bolt-t-shirt',
   },
 ];
